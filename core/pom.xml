@@ -62,26 +62,6 @@
     <!-- == DEFAULT BUILD SETTINGS =========================================== -->
     <build>
         <plugins>
-            <!-- create model jar -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>${maven-jar-plugin.version}</version>
-                <executions>
-                    <!-- models -->
-                    <execution>
-                        <id>generate-models</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <classifier>${models.classifier}</classifier>
-                            <classesDirectory>${models.path}</classesDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <!-- Include the generated source files -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
