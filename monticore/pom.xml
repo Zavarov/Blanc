@@ -30,7 +30,7 @@
 
     <properties>
         <generator.models.path>${project.basedir}/src/main/models</generator.models.path>
-        <generator.resources.path>${project.basedir}/src/main/resources/templates</generator.resources.path>
+        <generator.resources.path>${project.basedir}/src/main/templates</generator.resources.path>
         <generator.classes.path>${project.build.directory}/classes-resources</generator.classes.path>
         <generator.templates.path>${project.build.directory}/templates-resources</generator.templates.path>
     </properties>
@@ -40,13 +40,13 @@
     <dependencies>
         <!-- Numbers -->
         <dependency>
-            <groupId>vartas.monticore-commons</groupId>
+            <groupId>zav.mc</groupId>
             <artifactId>numbers</artifactId>
             <version>${cd4code.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>vartas.monticore-commons</groupId>
+            <groupId>zav.mc</groupId>
             <artifactId>numbers</artifactId>
             <classifier>${grammars.classifier}</classifier>
             <version>${cd4code.version}</version>
@@ -55,14 +55,14 @@
 
         <!-- CD4Code -->
         <dependency>
-            <groupId>vartas.monticore-commons</groupId>
+            <groupId>zav.mc</groupId>
             <artifactId>cd4code</artifactId>
             <version>${cd4code.version}</version>
             <optional>true</optional>
         </dependency>
 
         <dependency>
-            <groupId>vartas.monticore-commons</groupId>
+            <groupId>zav.mc</groupId>
             <artifactId>cd4code</artifactId>
             <version>${cd4code.version}</version>
             <classifier>${grammars.classifier}</classifier>
@@ -70,7 +70,7 @@
         </dependency>
 
         <dependency>
-            <groupId>vartas.monticore-commons</groupId>
+            <groupId>zav.mc</groupId>
             <artifactId>cd4code</artifactId>
             <version>${cd4code.version}</version>
             <classifier>${templates.classifier}</classifier>
@@ -79,9 +79,16 @@
 
         <!-- Core -->
         <dependency>
-            <groupId>vartas.discord.blanc</groupId>
+            <groupId>zav.discord.blanc</groupId>
             <artifactId>core</artifactId>
             <version>${project.version}</version>
+            <!-- MontiCore has a hard dependency on Guava 25.1-JRE -->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- MontiCore dependency -->
@@ -145,7 +152,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Load the templates for the generator-->
+            <!-- Load the templates & models for the generator-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -160,7 +167,7 @@
                         <configuration>
                             <outputDirectory>${generator.classes.path}</outputDirectory>
                             <classifier>${models.classifier}</classifier>
-                            <includeGroupIds>vartas.monticore-commons</includeGroupIds>
+                            <includeGroupIds>zav.mc</includeGroupIds>
                             <includeArtifactIds>cd4code</includeArtifactIds>
                             <includeTypes>jar</includeTypes>
                             <stripVersion>true</stripVersion>
@@ -175,7 +182,7 @@
                         <configuration>
                             <outputDirectory>${generator.classes.path}</outputDirectory>
                             <classifier>${models.classifier}</classifier>
-                            <includeGroupIds>vartas.discord.blanc</includeGroupIds>
+                            <includeGroupIds>zav.discord.blanc</includeGroupIds>
                             <includeArtifactIds>core</includeArtifactIds>
                             <includeTypes>jar</includeTypes>
                         </configuration>
@@ -189,7 +196,7 @@
                         <configuration>
                             <outputDirectory>${generator.templates.path}</outputDirectory>
                             <classifier>${templates.classifier}</classifier>
-                            <includeGroupIds>vartas.monticore-commons</includeGroupIds>
+                            <includeGroupIds>zav.mc</includeGroupIds>
                             <includeArtifactIds>cd4code</includeArtifactIds>
                             <includeTypes>jar</includeTypes>
                         </configuration>
@@ -203,7 +210,7 @@
                         <configuration>
                             <outputDirectory>${generator.templates.path}</outputDirectory>
                             <classifier>${templates.classifier}</classifier>
-                            <includeGroupIds>vartas.discord.blanc</includeGroupIds>
+                            <includeGroupIds>zav.discord.blanc</includeGroupIds>
                             <includeArtifactIds>core</includeArtifactIds>
                             <includeTypes>jar</includeTypes>
                         </configuration>
@@ -226,7 +233,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- create grammar & template jar -->
+            <!-- Create Grammar Jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>

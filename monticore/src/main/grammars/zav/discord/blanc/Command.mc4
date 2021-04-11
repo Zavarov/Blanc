@@ -1,0 +1,99 @@
+package zav.discord.blanc;
+
+/**
+ * This grammar describes the individual commands.
+ */
+grammar Command extends
+        zav.discord.blanc.Cardinality,
+        de.monticore.literals.MCCommonLiterals,
+        de.monticore.types.MCFullGenericTypes
+{
+        /**
+         * A container for all commands in this group.
+         * The package describes the location of the associated classes,
+         * while the group represent the qualified prefix of the Callable.
+         */
+        CommandArtifact =
+            ("package" package:(Name& || ".")+ ";" )?
+            import:MCImportStatement*
+            ("group" group:MCQualifiedName)?
+            "{"
+                Command*
+            "}"
+        ;
+
+        Command =
+            "command" Name&
+             ("requires" (Restriction || ",")+ )?
+             "{"
+                Attribute*
+             "}"
+        ;
+
+        /*=========================================================*/
+        /*=== Restriction                                       ===*/
+        /*=========================================================*/
+
+        /**
+         * A command may have additional requirements that need to be
+         * satisfied before it can be executed.
+         * It might be that a command only works within a guild or
+         * that it requires additional data, which is provided via
+         * an attachment.
+         */
+        Restriction = Name&;
+
+        /*=========================================================*/
+        /*=== Attribute                                         ===*/
+        /*=========================================================*/
+
+        /**
+         * The attribute are more specific description of the command.
+         * Examples of this can be the name of the command within the callable,
+         * the associated class or the number of expected parameters.
+         */
+        interface Attribute;
+
+        /**
+         * Each command needs to have a class
+         * that is executing on a match.
+         */
+        ClassAttribute implements Attribute =
+            "class" ":" Name&
+        ;
+
+        /**
+         * The caller might need additional permissions when executing the command.
+         * This is especially important with commands that modify Discord snowflakes.
+         */
+        PermissionAttribute implements Attribute =
+            "permission" ":" (Permission || ",")+
+        ;
+
+        /**
+         * Each permission is identified by its name.
+         */
+        Permission = Name&;
+
+        /**
+         * A command might need additional arguments for execution.
+         */
+        ParameterAttribute implements Attribute =
+            "parameter" ":" (Parameter || ",")+
+        ;
+
+        Parameter = MCType Name& Cardinality?;
+
+        /**
+         * The caller might specific ranks when executing the command.
+         * This is especially important with commands that modify the bot itself.
+         */
+        RankAttribute implements Attribute =
+            "rank" ":" rank:(Rank || ",")+
+        ;
+
+        /**
+         * Each rank is identified by its name.
+         */
+        Rank = Name&;
+}

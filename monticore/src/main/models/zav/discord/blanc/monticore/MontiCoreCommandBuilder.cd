@@ -1,0 +1,28 @@
+package zav.discord.blanc.monticore;
+
+import java.util.Map.Map;
+import java.util.List.List;
+import java.util.Optional.Optional;
+import java.util.function.Function.Function;
+import zav.discord.blanc.Errors.Errors;
+import zav.discord.blanc.CommandException.CommandException;
+import zav.discord.blanc.Architecture.Guild;
+import zav.discord.blanc.Architecture.Guild;
+import zav.discord.blanc.Architecture.Shard;
+import zav.discord.blanc.Architecture.TextChannel;
+import zav.discord.blanc.command.Command.Command;
+import zav.discord.blanc.command.Command.CommandBuilder;
+import zav.discord.blanc.parser.Parser.AbstractTypeResolver;
+import zav.discord.blanc.parser.Parser.Argument;
+import zav.discord.blanc.parser.Parser.Parser;
+import zav.discord.blanc.parser.Parser.AbstractTypeResolver;
+
+public classdiagram MontiCoreCommandBuilder {
+    public class MontiCoreCommandBuilder extends CommandBuilder {
+        - Map<String, BiFunction<List<? extends Argument>, List<String>, Command>> commands;
+
+        + MontiCoreCommandBuilder(BiFunction<? super Guild, ? super TextChannel, ? extends AbstractTypeResolver> typeResolverFunction, Shard shard, Parser parser, String globalPrefix);
+
+        # Optional<Command> build(String name, List<? extends Argument> arguments, List<String> flags);
+    }
+}

@@ -1,0 +1,85 @@
+package zav.discord.blanc;
+
+/**
+ * This grammar describes the text sequence used to call commands.
+ */
+grammar Callable extends
+        de.monticore.types.MCBasicTypes,
+        de.monticore.literals.MCCommonLiterals,
+        zav.mc.Math
+{
+    /**
+     * In order to distinguish command calls from normal text, it is recommended to specify a prefix
+     * for all such calls. This prefix is separated by the command name via a ':', in order to
+     * distinguish between those two.
+     * Each command can have an arbitrary amount of arguments.
+     */
+    Callable =
+        (astPrefix:Name ":")? astName:MCQualifiedName astFlag:Flag* astArgument:Argument*
+    ;
+
+    /**
+     * Generate a wrapper method for getting the qualified command name.
+     */
+    astrule Callable =
+        method public String getQualifiedName(){
+            return getAstName().getQName();
+        }
+    ;
+
+    /**
+     * All instances implementing this interface are Discord snowflakes.
+     */
+    interface DiscordEntity =
+        id:NatLiteral
+    ;
+
+    Flag =
+        "-" Name&
+    ;
+
+    /**
+     *
+     */
+    interface Argument;
+
+    /**
+     * The equivalent to pinging a user.
+     * If the user is in a guild and has a nickname, a semicolon is included.
+     * It is not possible to distinguish between pinging a member and pinging a user.
+     */
+    UserArgument implements Argument, DiscordEntity =
+        "<" "@" semicolon:["!"]? id:NatLiteral ">"
+    ;
+
+    /**
+     * The equivalent to pinging a text channel.
+     */
+    TextChannelArgument implements Argument, DiscordEntity =
+        "<" "#" id:NatLiteral ">"
+    ;
+
+    /**
+     * The equivalent to pinging a role.
+     */
+    RoleArgument implements Argument, DiscordEntity =
+        "<" "@" "&" id:NatLiteral ">"
+    ;
+
+    /**
+     * A text sequence wrapped around quotation marks.
+     * The string argument should have precedence so that we're able to escape the quotation marks.
+     */
+    StringArgument implements Argument <500> =
+        StringLiteral
+    ;
+
+    /**
+     * Use Expressions.mc4 for expressions.
+     * Expressions can be both arithmetic expressions as well as raw text.
+     * It is up to the application to interpret the data.
+     */
+     ExpressionArgument implements Argument =
+        Expression
+     ;
+}
