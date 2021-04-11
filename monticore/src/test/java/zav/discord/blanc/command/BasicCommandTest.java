@@ -28,8 +28,8 @@ import java.nio.file.Paths;
 
 public abstract class BasicCommandTest {
     protected static final Path MODELS_PATH = Paths.get("src","test","resources");
-    protected static final Path CLASSES_PATH = Paths.get("target", "classes-resources");
-    protected static final Path TEMPLATES_PATH = Paths.get("target","templates-resources");
+    protected static final Path CLASSES_PATH = Paths.get("buildSrc", "build", "codegen");
+    protected static final Path TEMPLATES_PATH = Paths.get("buildSrc","build", "codegen");
     protected static final Path SOURCES_PATH = Paths.get("src","main", "java");
     protected static final Path OUTPUT_PATH = Paths.get("target","generated-sources","monticore","sourcecode");
 

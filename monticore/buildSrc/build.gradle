@@ -1,0 +1,60 @@
+apply plugin: 'groovy'
+
+repositories {
+	mavenCentral()
+	maven {
+		url "https://nexus.se.rwth-aachen.de/content/groups/public/"
+	}
+	maven {
+		url "https://maven.pkg.github.com/zavarov/monticore-commons"
+		credentials {
+			username = System.getenv("GITHUB_ACCOUNT")
+			password = System.getenv("GITHUB_TOKEN")
+		}
+	}
+}
+
+configurations {
+    codegen
+}
+
+dependencies {
+	implementation 'zav.discord.blanc:core'
+
+	codegen ('zav.mc:cd4code:2.4.2:models') {
+		transitive = false
+	}
+	codegen ('zav.mc:cd4code:2.4.2:templates') {
+		transitive = false
+	}
+	//codegen ('zav.discord.blanc:root:5.0.0-SNAPSHOT:models') {
+	//	transitive = false
+	//}
+	//templates ('zav.discord.blanc:core:5.0.0-SNAPSHOT:templates') {
+	//	transitive = false
+	//}
+}
+
+task copyDependencies(type: Copy) {
+	//build <- buildSrc <- monticore <- blanc -> core -> buildSrc -> build -> codegen
+	from "$buildDir/../../../core/buildSrc/build/codegen"
+	into "$buildDir/codegen"
+
+	//build <- buildSrc <- monticore <- blanc -> core -> buildSrc -> src -> main -> models
+	from "$buildDir/../../../core/buildSrc/src/main/models"
+	into "$buildDir/codegen"
+
+	//build <- buildSrc <- monticore <- blanc -> core -> buildSrc -> src -> main -> templates
+	from "$buildDir/../../../core/buildSrc/src/main/templates"
+	into "$buildDir/codegen"
+
+	//build <- buildSrc -> src -> main -> models
+	from "$buildDir/../src/main/models"
+	into "$buildDir/codegen"
+
+	//build <- buildSrc -> src -> main -> templates
+	from "$buildDir/../src/main/templates"
+	into "$buildDir/codegen"
+}
+
+defaultTasks 'copyDependencies'

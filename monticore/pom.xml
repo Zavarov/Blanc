@@ -104,6 +104,7 @@
             <groupId>de.monticore</groupId>
             <artifactId>monticore-grammar</artifactId>
             <version>${monticore.version}</version>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -115,108 +116,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>${maven-resources-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>copy-templates</id>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <phase>initialize</phase>
-                        <configuration>
-                            <outputDirectory>${generator.templates.path}</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${generator.resources.path}</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-models</id>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <phase>initialize</phase>
-                        <configuration>
-                            <outputDirectory>${generator.classes.path}</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${generator.models.path}</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- Load the templates & models for the generator-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>${maven-dependency-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>cd4code-models</id>
-                        <goals>
-                            <goal>unpack-dependencies</goal>
-                        </goals>
-                        <phase>initialize</phase>
-                        <configuration>
-                            <outputDirectory>${generator.classes.path}</outputDirectory>
-                            <classifier>${models.classifier}</classifier>
-                            <includeGroupIds>zav.mc</includeGroupIds>
-                            <includeArtifactIds>cd4code</includeArtifactIds>
-                            <includeTypes>jar</includeTypes>
-                            <stripVersion>true</stripVersion>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>blanc-models</id>
-                        <goals>
-                            <goal>unpack-dependencies</goal>
-                        </goals>
-                        <phase>initialize</phase>
-                        <configuration>
-                            <outputDirectory>${generator.classes.path}</outputDirectory>
-                            <classifier>${models.classifier}</classifier>
-                            <includeGroupIds>zav.discord.blanc</includeGroupIds>
-                            <includeArtifactIds>core</includeArtifactIds>
-                            <includeTypes>jar</includeTypes>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>cd4code-templates</id>
-                        <goals>
-                            <goal>unpack-dependencies</goal>
-                        </goals>
-                        <phase>initialize</phase>
-                        <configuration>
-                            <outputDirectory>${generator.templates.path}</outputDirectory>
-                            <classifier>${templates.classifier}</classifier>
-                            <includeGroupIds>zav.mc</includeGroupIds>
-                            <includeArtifactIds>cd4code</includeArtifactIds>
-                            <includeTypes>jar</includeTypes>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>blanc-templates</id>
-                        <goals>
-                            <goal>unpack-dependencies</goal>
-                        </goals>
-                        <phase>initialize</phase>
-                        <configuration>
-                            <outputDirectory>${generator.templates.path}</outputDirectory>
-                            <classifier>${templates.classifier}</classifier>
-                            <includeGroupIds>zav.discord.blanc</includeGroupIds>
-                            <includeArtifactIds>core</includeArtifactIds>
-                            <includeTypes>jar</includeTypes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <!-- MontiCore Generation -->
             <plugin>
                 <groupId>de.monticore.mojo</groupId>
