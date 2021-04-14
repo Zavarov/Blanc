@@ -95,7 +95,7 @@ public class CommandBuilderCreator extends AbstractCreator<List<ASTCommandArtifa
     private void createCompilationUnit(){
         ASTCDCompilationUnitBuilder builder = CD4AnalysisMill.cDCompilationUnitBuilder();
 
-        builder.setPackageList(Arrays.asList("vartas","discord","blanc","monticore"));
+        builder.setPackageList(Arrays.asList("zav","discord","blanc","monticore"));
         builder.setCDDefinition(cdDefinition);
 
         for(ASTCDCompilationUnit command : commands.values())
