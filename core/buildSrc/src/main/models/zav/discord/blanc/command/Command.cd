@@ -1,6 +1,5 @@
 package zav.discord.blanc.command;
 
-import java.lang.Runnable.Runnable;
 import java.util.List.List;
 import java.util.Optional.Optional;
 import java.util.function.BiFunction.BiFunction;
@@ -20,11 +19,12 @@ import zav.discord.blanc.parser.Parser.AbstractTypeResolver;
 import zav.discord.blanc.parser.Parser.Parser;
 
 public classdiagram Command {
-    public abstract class Command implements Runnable {
+    public abstract class Command {
         - Shard $Shard;
         - Message $Message;
         - List<String> $Flags;
 
+        public abstract void run() throws IOException;
         public abstract void validate();
     }
 

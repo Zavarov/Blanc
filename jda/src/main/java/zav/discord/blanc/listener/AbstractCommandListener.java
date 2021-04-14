@@ -44,10 +44,12 @@ public abstract class AbstractCommandListener extends ListenerAdapter {
         shard.submit(() -> {
             try {
                 Optional<? extends Command> commandOpt = commandSupplier.get();
-                commandOpt.ifPresent(command -> {
-                        command.validate();
-                        command.run();
-                });
+                if(commandOpt.isPresent()){
+                    Command command = commandOpt.get();
+
+                    command.validate();
+                    command.run();
+                }
             }catch(Exception e){
                 e.printStackTrace();
                 log.error(e.toString(), e);
