@@ -74,7 +74,6 @@ public abstract class CommandBuilder extends CommandBuilderTOP {
      * @param parser The {@link Parser} used for processing the messages.
      * @param globalPrefix The global command prefix.
      */
-    @Nonnull
     public CommandBuilder(
             @Nonnull BiFunction<? super Guild, ? super TextChannel, ? extends AbstractTypeResolver> typeResolverFunction,
             @Nonnull Shard shard,
@@ -82,7 +81,7 @@ public abstract class CommandBuilder extends CommandBuilderTOP {
             @Nonnull String globalPrefix
     )
     {
-        super(typeResolverFunction, shard);
+        super(typeResolverFunction, shard, parser, globalPrefix);
         this.parser = parser;
         this.globalPrefix = globalPrefix;
         this.typeResolverFunction = typeResolverFunction;

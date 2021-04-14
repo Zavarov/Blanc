@@ -17,6 +17,7 @@ import zav.discord.blanc.Architecture.Shard;
 import zav.discord.blanc.Architecture.Permission;
 import zav.discord.blanc.parser.Parser.Argument;
 import zav.discord.blanc.parser.Parser.AbstractTypeResolver;
+import zav.discord.blanc.parser.Parser.Parser;
 
 public classdiagram Command {
     public abstract class Command implements Runnable {
@@ -41,7 +42,7 @@ public classdiagram Command {
     public abstract class CommandBuilder {
         # AbstractTypeResolver typeResolver;
         # Shard shard;
-        public CommandBuilder(BiFunction<? super Guild, ? super TextChannel, ? extends AbstractTypeResolver> typeResolverFunction, Shard shard);
+        public CommandBuilder(BiFunction<? super Guild, ? super TextChannel, ? extends AbstractTypeResolver> typeResolverFunction, Shard shard, Parser parser, String globalPrefix);
         protected abstract Optional<Command> build(String name, List<? extends Argument> arguments, List<String> flags);
         public abstract Optional<Command> build(Message message, MessageChannel channel);
         public abstract Optional<Command> build(Message message, Guild guild, TextChannel textChannel);
