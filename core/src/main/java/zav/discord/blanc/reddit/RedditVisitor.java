@@ -77,37 +77,40 @@ public class RedditVisitor implements ArchitectureVisitor {
         for(TextChannel textChannel : guild.retrieveTextChannels()) {
             LOGGER.trace("Visiting text channel {}", textChannel.getName());
             for (String subredditName : textChannel.getSubreddits()) {
-                loadSubredditFromTextChannel(subredditName, guild, textChannel);
+                createTextChannelListener(subredditName, guild, textChannel);
             }
             for(Webhook webhook : textChannel.retrieveWebhooks()) {
                 LOGGER.trace("Visiting webhook {}", webhook.getName());
                 for (String subredditName : webhook.getSubreddits()) {
-                    loadSubredditForWebhook(subredditName, guild, webhook);
+                    createWebhookListener(subredditName, guild, webhook);
                 }
             }
         }
     }
 
-    private void loadSubredditFromTextChannel(String subredditName, Guild guild, TextChannel channel){
+    private void createTextChannelListener(String subredditName, Guild guild, TextChannel channel){
         RedditListener listener = new TextChannelSubredditListener(guild, channel);
-        Subreddit subreddit = loadSubreddit(subredditName, listener);
+        Subreddit subreddit = loadSubreddit(subredditName);
 
         if (subreddit != null) {
+            LOGGER.info("Register listener for webhook {} in guild {}.", channel.getName(), guild.getName());
             observable.get(subreddit).addListener(listener);
         }
     }
 
-    private void loadSubredditForWebhook(String subredditName, Guild guild, Webhook webhook){
+    private void createWebhookListener(String subredditName, Guild guild, Webhook webhook){
         RedditListener listener = new WebhookSubredditListener(guild, webhook);
-        Subreddit subreddit = loadSubreddit(subredditName, listener);
+        Subreddit subreddit = loadSubreddit(subredditName);
+
 
         if (subreddit != null) {
+            LOGGER.info("Register listener for webhook {} in guild {}.", webhook.getName(), guild.getName());
             observable.get(subreddit).addListener(listener);
         }
     }
 
     @Nullable
-    private Subreddit loadSubreddit(String subredditName, RedditListener listener) throws RuntimeException {
+    private Subreddit loadSubreddit(String subredditName) throws RuntimeException {
         Subreddit subreddit = cache.getOrDefault(subredditName, null);
 
         if (subreddit != null) {
@@ -118,7 +121,7 @@ public class RedditVisitor implements ArchitectureVisitor {
                 cache.put(subredditName, subreddit);
                 return subreddit;
             } catch(NotFoundException | ForbiddenException e) {
-                listener.destroy(subredditName);
+                LOGGER.error(e.getMessage(), e);
                 return null;
             } catch(IOException | InterruptedException e){
                 throw new RuntimeException(e);

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import zav.discord.blanc.exceptions.InsufficientPermissionException;
 import zav.discord.blanc.io._json.JSONCredentials;
+import zav.discord.blanc.mock.TextChannelMock;
 import zav.jra.exceptions.NotFoundException;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class RedditObserverTest extends AbstractRedditTest{
 
         observer = new RedditObserver(redditdev);
         listener = new TextChannelSubredditListener(guild, textChannel);
-        dummy = new TextChannelSubredditListener(guild, textChannel);
+        dummy = new TextChannelSubredditListener(guild, new TextChannelMock());
 
         observer.addListener(listener);
         observer.addListener(dummy);

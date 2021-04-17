@@ -1,5 +1,6 @@
 package zav.discord.blanc.reddit;
 
+import com.google.common.base.Objects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import zav.discord.blanc.Guild;
@@ -40,5 +41,20 @@ public class WebhookSubredditListener implements RedditListener {
         //Remove subreddit from webhook and update persistence file
         webhook.removeSubreddits(subredditName);
         Shard.write(guild, webhook);
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hashCode(guild.getId(), webhook.getId());
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof WebhookSubredditListener) {
+            WebhookSubredditListener listener = (WebhookSubredditListener) o;
+            return listener.guild.getId() == guild.getId() && listener.webhook.getId() == webhook.getId();
+        } else {
+            return false;
+        }
     }
 }

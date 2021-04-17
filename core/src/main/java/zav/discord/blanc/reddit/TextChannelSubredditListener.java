@@ -1,5 +1,6 @@
 package zav.discord.blanc.reddit;
 
+import com.google.common.base.Objects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import zav.discord.blanc.Guild;
@@ -42,5 +43,20 @@ public class TextChannelSubredditListener implements RedditListener {
         //Remove subreddit from channel and update persistence file
         channel.removeSubreddits(subredditName);
         Shard.write(guild, channel);
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hashCode(guild.getId(), channel.getId());
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof TextChannelSubredditListener) {
+            TextChannelSubredditListener listener = (TextChannelSubredditListener) o;
+            return listener.guild.getId() == guild.getId() && listener.channel.getId() == channel.getId();
+        } else {
+            return false;
+        }
     }
 }
