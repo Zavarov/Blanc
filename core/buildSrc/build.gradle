@@ -20,11 +20,11 @@ configurations {
 
 dependencies {
 	implementation 'org.codehaus.groovy:groovy-all:3.0.7'
-	implementation 'zav.mc:cd4code:2.4.2'
-	codegen ('zav.mc:cd4code:2.4.2:models') {
+	implementation 'zav.mc:cd4code:2.4.3'
+	codegen ('zav.mc:cd4code:2.4.3:models') {
 		transitive = false
 	}
-	codegen ('zav.mc:cd4code:2.4.2:templates') {
+	codegen ('zav.mc:cd4code:2.4.3:templates') {
         transitive = false
 
 	}
