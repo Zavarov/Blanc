@@ -18,9 +18,8 @@
 package zav.discord.blanc;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import zav.discord.blanc._json.JSONGuild;
 import zav.discord.blanc._json.JSONRole;
@@ -37,7 +36,7 @@ import java.util.concurrent.*;
 
 @Nonnull
 public abstract class Shard extends ShardTOP{
-    private static final Logger LOGGER = LogManager.getLogger(Shard.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Shard.class);
     @Nonnull
     protected final ExecutorService worker;
     @Nonnull
