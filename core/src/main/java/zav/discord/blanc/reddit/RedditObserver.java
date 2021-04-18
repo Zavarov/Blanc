@@ -9,6 +9,8 @@ import zav.jra.observer.SubredditObserver;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RedditObserver extends SubredditObserver<RedditListener> {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedditObserver.class);
