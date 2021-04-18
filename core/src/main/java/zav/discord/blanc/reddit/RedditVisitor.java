@@ -93,7 +93,7 @@ public class RedditVisitor implements ArchitectureVisitor {
         Subreddit subreddit = loadSubreddit(subredditName);
 
         if (subreddit != null) {
-            LOGGER.info("Register listener for webhook {} in guild {}.", channel.getName(), guild.getName());
+            LOGGER.info("Register listener for channel \"{}\" in guild \"{}\".", channel.getName(), guild.getName());
             observable.get(subreddit).addListener(listener);
         }
     }
@@ -104,7 +104,7 @@ public class RedditVisitor implements ArchitectureVisitor {
 
 
         if (subreddit != null) {
-            LOGGER.info("Register listener for webhook {} in guild {}.", webhook.getName(), guild.getName());
+            LOGGER.info("Register listener for webhook \"{}\" in guild \"{}\".", webhook.getName(), guild.getName());
             observable.get(subreddit).addListener(listener);
         }
     }

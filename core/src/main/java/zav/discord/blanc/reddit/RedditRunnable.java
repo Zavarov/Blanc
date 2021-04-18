@@ -15,6 +15,7 @@ public class RedditRunnable implements Runnable{
 
     @Override
     public void run() {
+        LOGGER.info("Update Reddit feed.");
         try {
             observable.notifyAllObservers();
         } catch(IOException e) {
