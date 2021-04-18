@@ -5,7 +5,7 @@ import zav.jra.listener.SubredditListener;
 
 public interface RedditListener extends SubredditListener {
     default void destroy(Subreddit subreddit){
-        destroy(subreddit.getName());
+        destroy(subreddit.getDisplayName());
     }
 
     void destroy(String name);
