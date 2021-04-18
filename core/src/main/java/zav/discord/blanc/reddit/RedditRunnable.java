@@ -1,12 +1,12 @@
 package zav.discord.blanc.reddit;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public class RedditRunnable implements Runnable{
-    private static final Logger LOGGER = LogManager.getLogger(RedditRunnable.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RedditRunnable.class);
     private final RedditObservable observable;
 
     public RedditRunnable (RedditObservable observable) {

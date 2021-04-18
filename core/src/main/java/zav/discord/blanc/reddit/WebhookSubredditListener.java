@@ -1,8 +1,8 @@
 package zav.discord.blanc.reddit;
 
 import com.google.common.base.Objects;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import zav.discord.blanc.Guild;
 import zav.discord.blanc.Shard;
 import zav.discord.blanc.Webhook;
@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 import java.io.IOException;
 
 public class WebhookSubredditListener implements RedditListener {
-    private static final Logger LOGGER = LogManager.getLogger(WebhookSubredditListener.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebhookSubredditListener.class);
     private final Guild guild;
     private final Webhook webhook;
 
