@@ -179,7 +179,7 @@ public class JDAMember extends Member{
                 "Joined",
                 String.format(
                         "%s\n(%d %s, %d %s and %d %s ago)",
-                        DATE.format(Date.from(member.getTimeCreated().toInstant())),
+                        DATE.format(Date.from(member.getTimeJoined().toInstant())),
                         period.getYears(),
                         English.plural("year", period.getYears()),
                         period.getMonths(),
