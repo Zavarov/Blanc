@@ -21,7 +21,6 @@ import zav.discord.blanc._factory.MessageEmbedFactory;
 import zav.discord.blanc._factory.MessageFactory;
 import zav.jra.models.AbstractLink;
 import zav.jra.models.AbstractSubreddit;
-import zav.jra.models.Submission;
 
 import javax.annotation.Nonnull;
 import javax.imageio.ImageIO;
@@ -35,7 +34,7 @@ import java.time.Instant;
 public abstract class MessageChannel extends MessageChannelTOP{
 
     /**
-     * Wraps the {@link Submission} around a {@link Message} and submits them to the Discord server.
+     * Wraps the {@link AbstractLink} around a {@link Message} and submits them to the Discord server.
      * @param link the content of the submitted {@link Message}
      */
     @Override
@@ -58,8 +57,12 @@ public abstract class MessageChannel extends MessageChannelTOP{
 
         Message message = MessageFactory.create(0, Instant.now(), null);
         message.addMessageEmbeds(messageEmbed);
-        message.setContent(String.format("New submission from %s in `r/%s`:\n\n<%s>", link.getAuthor(), subreddit.getName(), AbstractLink.getShortLink(link)));
 
+        String author = link.getAuthor().orElse(null);
+        if(author == null)
+            message.setContent(String.format("New submission in `r/%s`:\n\n<%s>", subreddit.getDisplayName(), AbstractLink.getShortLink(link)));
+        else
+            message.setContent(String.format("New submission from %s in `r/%s`:\n\n<%s>", author, subreddit.getDisplayName(), AbstractLink.getShortLink(link)));
         send(message);
     }
 
