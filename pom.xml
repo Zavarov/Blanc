@@ -37,8 +37,8 @@
 
         <evo-inflector.version>1.2.2</evo-inflector.version>
         <chart.version>2.5</chart.version>
-        <reddit.version>3.3-SNAPSHOT</reddit.version>
-        <slf4j.version>1.7.30</slf4j.version>
+        <jra.version>0.1.0-SNAPSHOT</jra.version>
+        <log4j.version>2.14.1</log4j.version>
         <oshi.version>5.3.3</oshi.version>
 
         <monticore.guava.version>25.1-jre</monticore.guava.version>
@@ -49,7 +49,7 @@
         <logback.version>1.2.3</logback.version>
 
         <vartas.chart.version>1.1.9</vartas.chart.version>
-        <cd4code.version>2.3</cd4code.version>
+        <cd4code.version>2.4.3</cd4code.version>
 
         <markdown.version>1.3.1.1</markdown.version>
 
@@ -68,7 +68,7 @@
         <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
         <maven-dependency-plugin.version>3.1.2</maven-dependency-plugin.version>
         <maven-exec-plugin.version>1.6.0</maven-exec-plugin.version>
-        <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <maven-builder-helper-plugin.version>3.0.0</maven-builder-helper-plugin.version>
@@ -77,11 +77,6 @@
         <maven-deploy-plugin.version>2.7</maven-deploy-plugin.version>
 
         <!-- .. Misc .......................................................... -->
-        <init.path>initializer/**</init.path>
-        <java.lang.init.path>initializer/java/lang/**</java.lang.init.path>
-        <java.util.init.path>initializer/java/util/**</java.util.init.path>
-        <com.google.common.cache.init.path>initializer/com/google/common/cache/**</com.google.common.cache.init.path>
-
         <templates.classifier>templates</templates.classifier>
         <models.classifier>models</models.classifier>
 
@@ -99,14 +94,26 @@
 
     <repositories>
         <repository>
-            <id>se-nexus</id>
-            <url>https://nexus.se.rwth-aachen.de/content/groups/public/</url>
-        </repository>
-
-        <repository>
             <id>jcenter</id>
             <name>jcenter-bintray</name>
             <url>https://jcenter.bintray.com</url>
+        </repository>
+
+        <repository>
+            <id>jra</id>
+            <name>GitHub Zavarov Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/zavarov/jra</url>
+        </repository>
+
+        <repository>
+            <id>mc</id>
+            <name>GitHub Zavarov Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/zavarov/monticore-commons</url>
+        </repository>
+
+        <repository>
+            <id>se-nexus</id>
+            <url>https://nexus.se.rwth-aachen.de/content/groups/public/</url>
         </repository>
     </repositories>
 
@@ -119,15 +126,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-jdk14</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
 
         <!-- Test Dependencies -->
@@ -172,11 +173,13 @@
         <plugins>
             <!-- Newer version required for JUnit5 -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
             </plugin>
             <!-- create sources jar -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>${maven-source-plugin.version}</version>
                 <executions>
@@ -204,7 +207,7 @@
                         <configuration>
                             <skipIfEmpty>true</skipIfEmpty>
                             <classifier>${models.classifier}</classifier>
-                            <classesDirectory>src/main/models</classesDirectory>
+                            <classesDirectory>buildSrc/src/main/models</classesDirectory>
                         </configuration>
                     </execution>
                     <!-- templates -->
@@ -217,9 +220,7 @@
                         <configuration>
                             <skipIfEmpty>true</skipIfEmpty>
                             <classifier>${templates.classifier}</classifier>
-                            <classesDirectory>src/main/resources/templates</classesDirectory>
-                            <!-- Avoid collisions with cd4code templates -->
-                            <excludes>${init.path}</excludes>
+                            <classesDirectory>buildSrc/src/main/templates</classesDirectory>
                         </configuration>
                     </execution>
                 </executions>

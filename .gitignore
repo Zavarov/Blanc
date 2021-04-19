@@ -90,3 +90,5 @@ fabric.properties
 
 src/test/resources/credentials.json
 /old_core/src/test/resources/credentials.json
+**/buildSrc/.gradle
+**/buildSrc/build
