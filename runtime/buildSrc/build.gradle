@@ -1,0 +1,62 @@
+apply plugin: 'groovy'
+
+repositories {
+	mavenCentral()
+	maven {
+		url "https://nexus.se.rwth-aachen.de/content/groups/public/"
+	}
+	maven {
+		url "https://maven.pkg.github.com/zavarov/monticore-commons"
+		credentials {
+			username = System.getenv("GITHUB_ACCOUNT")
+			password = System.getenv("GITHUB_TOKEN")
+		}
+	}
+}
+
+configurations {
+    codegen
+}
+
+dependencies {
+	implementation 'org.codehaus.groovy:groovy-all:3.0.7'
+	implementation 'zav.discord.blanc:monticore:5.0.0-SNAPSHOT'
+	implementation 'zav.mc:cd4code:2.4.3'
+}
+
+task copyDependencies(type: Copy) {
+	// -------------- //
+	// Core Templates //
+	// -------------- //
+
+	//build <- buildSrc <- runtime <- blanc -> core -> buildSrc -> build -> codegen
+	from "$buildDir/../../../core/buildSrc/build/codegen"
+	into "$buildDir/codegen"
+
+	//build <- buildSrc <- runtime <- blanc -> core -> buildSrc -> src -> main -> models
+	from "$buildDir/../../../core/buildSrc/src/main/models"
+	into "$buildDir/codegen"
+
+	//build <- buildSrc <- runtime <- blanc -> core -> buildSrc -> src -> main -> templates
+	from "$buildDir/../../../core/buildSrc/src/main/templates"
+	into "$buildDir/codegen"
+
+	// ------------------- //
+	// MontiCore Templates //
+	// ------------------- //
+
+	//build <- buildSrc <- monticore -> buildSrc -> src -> main -> models
+	from "$buildDir/../../../monticore/buildSrc/src/main/models"
+	into "$buildDir/codegen"
+
+	//build <- buildSrc <- monticore -> buildSrc -> src -> main -> templates
+	from "$buildDir/../../../monticore/buildSrc/src/main/templates"
+	into "$buildDir/codegen"
+}
+
+task runScript (dependsOn:copyDependencies, type: JavaExec) {
+	main = 'zav.mc.gradle.CodeGen'
+	classpath = sourceSets.main.runtimeClasspath
+}
+
+defaultTasks 'runScript'
