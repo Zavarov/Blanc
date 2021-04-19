@@ -3,8 +3,6 @@ package zav.discord.blanc.reddit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
 public class RedditRunnable implements Runnable{
     private static final Logger LOGGER = LoggerFactory.getLogger(RedditRunnable.class);
     private final RedditObservable observable;
@@ -18,7 +16,7 @@ public class RedditRunnable implements Runnable{
         LOGGER.info("Update Reddit feed.");
         try {
             observable.notifyAllObservers();
-        } catch(IOException e) {
+        } catch(Exception e) {
             LOGGER.error(e.getMessage(), e);
         }
     }
