@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import zav.discord.blanc.exceptions.InsufficientPermissionException;
 import zav.discord.blanc.io._json.JSONCredentials;
+import zav.discord.blanc.mock.LinkMock;
 import zav.discord.blanc.mock.TextChannelMock;
 import zav.jra.exceptions.NotFoundException;
 
@@ -35,8 +36,6 @@ public class RedditObserverTest extends AbstractRedditTest{
         observer.addListener(listener);
         observer.addListener(dummy);
         observer.notifyAllListener(); //Initialize head of the requester
-
-
     }
 
     @AfterEach
@@ -55,6 +54,7 @@ public class RedditObserverTest extends AbstractRedditTest{
     @Test
     public void testNotifyListenerDiscordError() throws IOException {
         textChannel.sendLinkException = new InsufficientPermissionException();
+        redditdev.links.add(0, new LinkMock(2)); //Create a link to post
         observer.notifyListener(listener);
 
         assertThat(observer.size()).isEqualTo(1);
@@ -73,6 +73,7 @@ public class RedditObserverTest extends AbstractRedditTest{
     @Test
     public void testNotifyListenerNoMoreListener(){
         textChannel.sendLinkException = new InsufficientPermissionException();
+        redditdev.links.add(0, new LinkMock(2)); //Create a link to post
         observer.removeListener(dummy);
 
         assertThatThrownBy(() -> observer.notifyAllListener()).isInstanceOf(InvalidObserverException.class);

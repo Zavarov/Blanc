@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import zav.discord.blanc.exceptions.InsufficientPermissionException;
 import zav.discord.blanc.io._json.JSONCredentials;
+import zav.discord.blanc.mock.LinkMock;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -75,6 +76,7 @@ public class RedditObservableTest extends AbstractRedditTest{
     @Test
     public void testNotifyObserverNoMoreObserver() throws IOException {
         textChannel.sendLinkException = new InsufficientPermissionException();
+        redditdev.links.add(0, new LinkMock(2)); //Create a link to post
 
         observable.notifyObserver(observer);
         assertThat(observable.size()).isEqualTo(0);

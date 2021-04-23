@@ -20,4 +20,7 @@ package zav.discord.blanc.mock;
 import zav.jra.Link;
 
 public class LinkMock extends Link {
+    public LinkMock(Object id){
+        setId(id.toString());
+    }
 }

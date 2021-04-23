@@ -19,7 +19,7 @@ public abstract class AbstractRedditTest extends AbstractTest {
         client = new ClientMock();
         redditdev = new SubredditMock("redditdev");
         modnews = new SubredditMock("modnews");
-        link = new LinkMock();
+        link = new LinkMock(1);
 
         redditdev.links.add(link);
 
