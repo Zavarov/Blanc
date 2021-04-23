@@ -17,6 +17,8 @@
 
 package zav.discord.blanc;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import zav.discord.blanc._factory.MessageEmbedFactory;
 import zav.discord.blanc._factory.MessageFactory;
 import zav.jra.models.AbstractLink;
@@ -32,6 +34,7 @@ import java.time.Instant;
 
 @Nonnull
 public abstract class MessageChannel extends MessageChannelTOP{
+    private static final Logger LOGGER = LoggerFactory.getLogger(MessageChannel.class);
 
     /**
      * Wraps the {@link AbstractLink} around a {@link Message} and submits them to the Discord server.
@@ -63,6 +66,9 @@ public abstract class MessageChannel extends MessageChannelTOP{
             message.setContent(String.format("New submission in `r/%s`:\n\n<%s>", subreddit.getDisplayName(), AbstractLink.getShortLink(link)));
         else
             message.setContent(String.format("New submission from %s in `r/%s`:\n\n<%s>", author, subreddit.getDisplayName(), AbstractLink.getShortLink(link)));
+
+        LOGGER.info("Send link with id {}.", link.getId());
+
         send(message);
     }
 
