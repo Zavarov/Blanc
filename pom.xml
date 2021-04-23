@@ -29,7 +29,6 @@
         <module>jda</module>
         <module>monticore</module>
         <module>runtime</module>
-        <module>shaded</module>
     </modules>
 
     <properties>
